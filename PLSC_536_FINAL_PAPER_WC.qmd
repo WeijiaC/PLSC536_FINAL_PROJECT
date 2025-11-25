@@ -1,0 +1,242 @@
+---
+title: "Signal Scarcity and Screening Gates: Rethinking the Fiscal Logic of Infrastructure-Based Promotion in China"
+author: "WEIJIA CHEN"
+format:
+  cmc-article-pdf:
+    fontsize: 12pt
+    margin-left: 1.5in
+    margin-right: 1.5in
+    margin-bottom: 1.2in
+    margin-top: 1.2in
+    keep-tex: true
+    fig-pos: 'tbp'
+    tbl-pos: 'tbp'
+    linestretch: 1.0
+    include-in-header: header.tex.
+bibliography: bibliography.bib
+abstract: | 
+  This paper re-examines the fiscal logic behind infrastructure-based promotion in China by replicating and extending Lei and Zhou's (2022) study of subway approvals. Using panel data on 327 prefecture-level cities from 2003-2016 and two-way fixed-effects and event-study models, I incorporate pre-tenure measures of land finance dependence and fiscal capacity. Replication confirms that subway approvals raise mayors' promotion probabilities on average. However, the promotion premium is large and persistent only in cities with low pre-existing land finance dependence, consistent with a "signal scarcity" mechanism. Fiscal capacity instead operates as a screening gate: fiscally weak cities almost never receive approvals, but conditional on approval, fiscal health does not systematically shape promotion returns.
+---
+
+
+# Introduction
+
+Why do local officials in China enthusiastically pursue expensive infrastructure projects, often seemingly at odds with local fiscal realities? In their influential study, Lei and Zhou [-@lei2022private] provide a compelling explanation based on a "fiscal multiplier" logic. They argue that infrastructure investment, such as subway construction, boosts land prices, which in turn generates land transfer revenue-the lifeblood of local finance. Consequently, subway projects serve as a "complement" to land finance, providing mayors with both the political credit for GDP growth and the fiscal resources to sustain it. Using a difference-in-differences (DID) design, Lei and Zhou [-@lei2022private] empirically demonstrate that obtaining subway approval significantly increases the probability of mayoral promotion.
+
+This paper begins by successfully replicating the central findings of Lei and Zhou [-@lei2022private], confirming that subway approvals indeed yield a substantial promotion premium on average. However, this replication serves as the point of departure for a critical re-evaluation of the underlying mechanism. If the "fiscal multiplier" logic proposed by the original authors were the sole driver, we should expect the strongest political rewards in cities where this multiplier effect is most potent-specifically, in cities with high reliance on land finance and vibrant land markets. Yet, by extending the analysis to examine heterogeneity across pre-existing fiscal conditions, I uncover a striking and counter-intuitive pattern that challenges this expectation: the promotion premium of subway approvals is statistically insignificant in cities with high land finance dependence. Instead, the political rewards are concentrated entirely in cities with low pre-existing reliance on land finance.
+
+This puzzle suggests that the mechanism linking infrastructure to promotion is not merely fiscal, as Lei and Zhou [-@lei2022private] suggest, but signaling. Integrating Spence's [-@spence1973] job market signaling theory with the Chinese context, and drawing on Landry, Lu, and Duan's [-@landry2018] critique of simple performance-based promotion, I propose a "Signal Scarcity" framework. In cities that heavily rely on land finance, infrastructure development is routine; generating revenue through land sales is the expected norm. Consequently, the marginal political information revealed by a new subway project is low-it is a "noisy" signal. Conversely, in cities that historically lack such land-based fiscal advantages, successfully securing and initiating a massive infrastructure project represents a "difficult task" and a deviation from the status quo. 
+
+This paper extends the analysis by examining the constraint side of the promotion tournament. Despite rising debt risks from local government financing vehicles (LGFVs) highlighted in recent literature [@bao2024], it is unclear if the promotion system internalizes these risks. I argue that China relies on ex-ante "screening gates" rather than ex-post accountability for risk management. My findings indicate that while fiscal weakness effectively bars cities from entering the "subway club," fiscal health does not significantly impact promotion chances for those that do gain approval. In summary, this paper offers a distinct theoretical and empirical extension. It challenges the linear "fiscal multiplier" view and it refines our understanding of the "soft budget constraint" [@kornai1986] in China.
+
+# Data and Descriptive Statistics
+
+This study utilizes a city-year panel dataset covering 327 prefecture-level cities in China from 2003 to 2016. The primary data source is the replication package provided by Lei and Zhou [-@lei2022private].
+
+The dependent variable, *Mayor Promoted within Three Years* ($Mayor\_promotion3y$), is a binary indicator equal to $1$ if a mayor is promoted to a higher-ranking position within three years of a given year $t$, and $0$ otherwise. The key independent variable, *Subway Approval* ($Mayor\_plan$), is a dummy variable that takes the value of 1 in the year a city receives its first subway construction approval and remains 1 for all subsequent years while the approving mayor is in office, following Lei and Zhou's [-@lei2022private] coding strategy.
+
+A key methodological challenge is the potential endogeneity between subway construction and fiscal conditions. Since subways boost land values and fiscal revenue, using contemporaneous fiscal measures as moderators would introduce post-treatment bias. To address this, I calculate pre-tenure averages of land finance dependence (ratio of land to fiscal revenue per capita) and fiscal capacity (ratio of fiscal to GDP per capita):
+
+$$
+\text{Land Share}_{ct} = \frac{\text{Land Revenue}_{ct}}{\text{Fiscal Revenue}_{ct}}, \quad
+\text{Fiscal Capacity}_{ct} = \frac{\text{Fiscal Revenue}_{ct}}{\text{GRP}_{ct}}
+$$
+
+where all values are per capita for city $c$ in year $t$.
+
+Next, for each mayor $i$ in city $c$, I identify their first year in office, $t_{\text{start}}$. I then compute the average of these two ratios over the three-year window prior to their tenure, $[t_{\text{start}} - 3,\, t_{\text{start}} - 1]$, using all available pre-tenure years (and falling back to $t_{\text{start}}$ itself if earlier data are missing). The resulting mayor-level variables are:
+
+**Land Finance Dependence** ($LandDep_i$): the pre-tenure average of $\text{land\_share}_{ct}$, capturing the structural reliance of a city on land sales for its fiscal survival.
+
+**Fiscal Capacity** ($FiscalCap_i$): the pre-tenure average of $\text{fiscal\_capacity\_raw}_{ct}$, reflecting the government's ability to generate formal budgetary revenue relative to local GRP.
+
+Based on the median of the pre-tenure distribution of $LandDep_i$, I construct a binary indicator $High\ Land\ Group_i$ that equals $1$ if a mayor governs a city with above-median land finance dependence and $0$ otherwise. Similarly, for some robustness checks I use a dummy $Low\ Fiscal\ Group_i$ indicating below-median pre-tenure fiscal capacity. 
+
+These pre-tenure averages serve two purposes. Substantively, they capture the "fiscal endowment" that each mayor inherits upon taking office-whether she governs a city that already lives off land sales or one that relies more on other tax bases and transfers. Methodologically, they are defined strictly using pre-treatment information: by construction, they cannot be affected by the subway approval decision or by any subsequent land-price changes induced by the project.
+
+@tbl-main reports summary statistics for the main variables used in the analysis. Notably, the pre-tenure fiscal variables show significant variation. The average pre-tenure land finance dependence ratio is $0.067$, but it ranges from $0$ to over $1.2$, indicating vast differences in how cities finance their operations. Similarly, pre-tenure fiscal capacity varies from 1.6% to nearly 40% of GDP. These variations provide the necessary leverage to test the heterogeneous effects of subway approvals. 
+
+|                        |
+|:-----------------------|
+| ![](figures/table_1.png){width="100%"} |
+: {#tbl-main}
+
+
+# Methods and Empirical Strategy
+
+I closely follow Lei and Zhou's [-@lei2022private] two-way fixed effects framework and then extend it along the fiscal dimensions introduced above. The unit of analysis is the mayor-year. Let $Promotion_{it}$ denote a dummy equal to $1$ if mayor $i$ is promoted to a higher post within three years of year $t$, and $0$ otherwise. The key treatment variable, $Subway_{it}$, equals $1$ from the year in which mayor $i$ first obtains approval for a subway project in her city and remains $1$ in all subsequent years of her tenure. The baseline specification is
+
+\begin{equation}
+Promotion_{it}
+= \alpha + \beta\,Subway_{it} + M_{it}'\theta + C_{i,t-1}'\gamma + \mu_i + \lambda_t + \varepsilon_{it},
+\end{equation}
+
+where $M_{it}$ is a vector of mayor characteristics, and $C_{i,t-1}$ includes lagged city-level controls. City fixed effects $\mu_i$ absorb all time-invariant city characteristics, while year fixed effects $\lambda_t$ capture common shocks such as macroeconomic cycles or central policy shifts. The coefficient $\beta$ captures the average change in the probability of promotion (in percentage points) associated with securing a subway approval, conditional on remaining in office.
+
+To examine how this promotion premium varies with pre-tenure land finance dependence, I first estimate an interaction model that augments the baseline equation with a mayor-level indicator $HighLand_i$, which equals $1$ for mayors whose pre-tenure land finance dependence is above the median and $0$ otherwise:
+
+\begin{equation}
+\begin{aligned}
+Promotion_{it} = &\alpha + \beta\,Subway_{it} + \delta \left(Subway_{it}\times HighLand_i\right) \\
+&+ M_{it}'\theta + C_{i,t-1}'\gamma + \mu_i + \lambda_t + \varepsilon_{it}.
+\end{aligned}
+\end{equation}
+
+In this specification, $\beta$ represents the subway effect for the low land-dependence group, while $\beta+\delta$ represents the effect for the high land-dependence group. For transparency, I then estimate the baseline model separately for the high- and low-dependence subsamples:
+
+\begin{equation}
+\begin{aligned}
+Promotion_{it} = &\alpha_h + \beta_h\,Subway_{it} + M_{it}'\theta_h + C_{i,t-1}'\gamma_h \\
+&+ \mu_i + \lambda_t + \varepsilon_{it}, \quad \text{for } HighLand_i = h \in \{0,1\}.
+\end{aligned}
+\end{equation}
+
+
+Comparing $\hat\beta_0$ and $\hat\beta_1$ provides a straightforward way to see how the promotion premium differs between the two regimes.
+
+To probe dynamic effects and the parallel trends assumption, I follow Lei and Zhou's event-study design. Let $\tau$ index "event time" in years relative to the first subway approval in a city-mayor spell, with $\tau=-1$ denoting the year just before approval. I construct a series of dummy variables $D_{it}^{\tau}$ that equal $1$ if year $t$ for mayor $i$ falls $\tau$ years from the approval year and $0$ otherwise. For estimation, I bin all pre-trends with $\tau \leq -5$ into a single indicator ($\tau=-5$) and all distant post-treatment years with $\tau \geq 4$ into a single indicator ($\tau=4+$), yielding leads $\tau \in \{-5,-4,-3,-2\}$ and lags $\tau \in \{0,1,2,3,4+\}$. The dynamic specification is
+
+\begin{equation}
+Promotion_{it}
+= \alpha
++ \sum_{\tau \in \mathcal{T},\, \tau \neq -1} \pi_\tau D_{it}^{\tau}
++ M_{it}'\theta + C_{i,t-1}'\gamma + \mu_i + \lambda_t + \varepsilon_{it},
+\end{equation}
+
+
+where the indicator for $\tau=-1$ is omitted as the reference category. The coefficients $\pi_\tau$ trace the evolution of promotion probabilities from five or more years before approval through four or more years after approval. Parallel trends are assessed by testing whether the pre-treatment coefficients ($\pi_{-5}, \pi_{-4}, \pi_{-3}, \pi_{-2}$) are jointly zero; the corresponding regression tables are reported in the appendix.
+
+The second part of the strategy studies how fiscal capacity shapes both access to subway projects and the promotion returns conditional on approval. For the continuous analysis, I incorporate the pre-tenure fiscal capacity measure directly into the baseline promotion model. The interaction term $Subway_{it} \times FiscalCap_i$ asks whether the promotion premium from approval systematically differs across mayors governing fiscally stronger versus weaker cities. To make the main effect $\beta$  interpretable as the subway effect at the sample mean level of fiscal capacity, I re-estimate this model using a mean-centered version of fiscal capacity, $FiscalCap_i^c = FiscalCap_i - \overline{FiscalCap}$. 
+
+# Results and Analysis 
+
+I begin by replicating the core finding in Lei and Zhou [-@lei2022private] that subway approvals raise the probability of mayoral promotion within three years. Using the authors' preferred specification with city and year fixed effects, mayor controls, and lagged city-level covariates, the coefficient on *Subway approval* in column (1) of @tbl-land is 0.257 (s.e. 0.098), significant at the 1 percent level. Substantively, this means that conditional on observables, receiving a subway approval is associated with roughly a 25-26 percentage point increase in the probability of promotion, relative to an unconditional mean of about 0.43.
+
+Column (2) of @tbl-land augments the baseline with an interaction between *Subway approval* and the indicator for high pre-tenure land finance dependence. The main effect of *Subway approval* in this specification captures the promotion effect for the low-dependence group, while the interaction term captures the difference in effects between high- and low-dependence cities. The coefficient on *Subway approval* is 0.295 (s.e. 0.153), marginally significant, and the coefficient on *Subway $\times$ High Land Dependence* is small and statistically insignificant. This pattern already suggests that the subway premium is at least as large in low-dependence cities as in high-dependence cities, contrary to a simple fiscal-multiplier story.
+
+To more directly probe the "signal scarcity" mechanism, columns (3) and (4) of @tbl-land estimate the baseline model separately for the high- and low-dependence subsamples, as described in Section 3. Comparing the estimated coefficients $\hat\beta_0$ and $\hat\beta_1$ provides a transparent way to visualize how the promotion premium varies across regimes.
+
+For mayors in cities with low pre-tenure land finance dependence ($h=0$), the estimated subway effect is large and statistically significant with 0.329. This implies that obtaining a subway approval increases the promotion probability by more than 30 percentage points in low-dependence cities-roughly a 75 percent increase relative to the subgroup mean of 0.421. By contrast, for mayors in high land-dependence cities ($h=1$), the estimated effect is smaller and imprecise: 0.193 (s.e. 0.142, column (3)), with a confidence interval that comfortably includes zero. In other words, the main promotional "bang for the buck" from subway approvals accrues to mayors in places that did not previously rely heavily on land-based fiscal revenue.
+
+|                        |
+|:-----------------------|
+| ![](figures/table_2.png){width="100%"} |
+:  {#tbl-land}
+
+
+@fig-main further illuminates the dynamic pattern behind these average effects. Panel A reproduces the event-study estimates for the full sample using the year immediately preceding approval ($t=-1$) as the omitted category. In the full sample, the coefficients for the pre-treatment leads hover around zero, and the post-approval coefficients gradually rise and become positive and statistically significant for $t \geq 1$, consistent with Lei and Zhou's original findings.
+
+![](figures/figure_1.png){#fig-main width="50%"}
+
+Panels B and C split the event study by land finance dependence. Among **low-dependence** cities (Panel B), there is no evidence of differential pre-trends: the coefficients for $t \leq -2$ are small with confidence intervals that span zero. Starting in the approval year ($t=0$), however, the estimated effects jump up and then grow over time, reaching values around 0.6-0.9 in years 2-3 and exceeding 1.0 in the bin for $t \geq 4$. This implies that for low-dependence mayors, subway approvals not only boost promotion chances contemporaneously but continue to yield increasing returns as the project proceeds.
+
+In stark contrast, the **high-dependence** group (Panel C) exhibits a relatively flat profile. Pre-treatment estimates again cluster around zero, supporting the parallel trends assumption, but the post-approval coefficients are small and never statistically distinguishable from zero. @tbl-pt-lowland and @tbl-pt-highland report the underlying regression results for the subgroup event studies and joint F-tests for the pre-treatment coefficients. In both subgroups, the null hypothesis that all pre-trend coefficients equal zero cannot be rejected, reinforcing the interpretation that the sharp post-approval divergence in Panel B reflects the causal effect of subway approvals in low-dependence cities rather than differential pre-existing trends.
+
+Taken together, @tbl-land and @fig-main provide strong support for the signal scarcity mechanism. In cities where reliance on land finance is already high and infrastructure-led development is routine, subway projects appear to yield only modest and statistically uncertain promotion benefits. In cities where land finance has historically played a smaller role, by contrast, securing a subway approval functions as a rare and powerful competence signal, generating sizable and persistent gains in promotion probability.
+
+The second part of the analysis examines how fiscal capacity shapes both access to subway projects and the returns to those projects, in order to evaluate the "screening gate" hypothesis. @tbl-fisc presents interaction model and columns (1) and (2) replicate the baseline specifications.
+
+Columns (3)-(6) add interactions between *Subway approval* and pre-tenure fiscal capacity. In the "raw" specification (columns (3) and (4)), the interaction term *Subway $\times$ Fiscal capacity* is positive but imprecisely estimated: the point estimates are roughly $1.3$ with standard errors on the order of $1.0$, and no coefficient reaches conventional significance thresholds. To make the main effect easier to interpret, columns (5) and (6) re-estimate the same models using a mean-centered fiscal capacity variable. In this parameterization, the coefficient on *Subway approval* corresponds to the effect at **average** fiscal capacity, and the interaction term captures how the effect changes as fiscal capacity moves above or below its mean. The centered models show a similar pattern: a robust main effect of subway approval at the mean level of fiscal capacity  but no statistically significant moderation by fiscal capacity itself.
+
+These results indicate that conditional on having obtained a subway approval, there is little evidence that mayors in fiscally strong cities enjoy systematically larger promotion gains than their counterparts in fiscally weaker cities. In other words, once a city has cleared whatever hurdles are required to enter the "subway club," the promotion system appears largely indifferent to the underlying fiscal health of that city.
+
+|                        |
+|:-----------------------|
+| ![](figures/table_3.png){width="100%"} |
+:  {#tbl-fisc}
+
+
+The selection side of the screening gate hypothesis is most clearly visible in @tbl-fiscal-dist, which tabulates the distribution of subway approvals by fiscal capacity group. In the low fiscal capacity group, only a single observation out of 1,890 ($0.1$ percent) received approval. This imbalance suggests that cities with weak pre-tenure fiscal capacity are effectively excluded from ever obtaining a subway approval in the first place, consistent with a hard administrative constraint at the entry stage.
+
+Overall, the results paint a coherent picture that aligns with the theoretical framework developed in Section $1$. Subway approvals do confer substantial promotion benefits on average, confirming Lei and Zhou's core finding. However, the size and even the existence of this benefit depend critically on pre-tenure land finance dependence: the subway premium is large and robust in low-dependence cities but small and statistically uncertain in high-dependence cities. Fiscal capacity, by contrast, operates primarily as a **screening gate** at the approval stage: cities with very low fiscal capacity almost never receive subway projects, but among those that do, fiscal health does not systematically amplify or dampen the promotion premium. 
+
+# Discussion and Reflection
+
+The extension results recast the politics of infrastructure promotion in China. Rather than supporting a simple "fiscal multiplier" logic, the heterogeneity by pre-tenure land finance points to a **signal scarcity** mechanism. In cities that already rely heavily on land revenue, gaining a subway approval appears politically routine. By contrast, in low land dependence cities, the estimated promotion premium is large and precisely estimated. For low land dependence mayors, promotion probabilities jump sharply in the approval year and remain elevated for several years.
+
+Substantively, these patterns suggest that upper-level principals reward **non-typical accomplishments** more than marginal additions to an already infrastructure-intensive growth model. When a mayor in a low land finance city manages to secure a costly subway project, this is a rare and visible achievement that credibly signals political connections and administrative capacity under fiscal constraints. This asymmetry is exactly what a signal-scarcity perspective would predict, but is hard to reconcile with a purely fiscal-multiplier account. The evidence on fiscal capacity further clarifies how constraints operate. The continuous interaction models show that, conditional on approval, mayors in fiscally weaker cities are not systematically punished in promotion outcomes. Taken together, the replication and extension highlight both the power and limits of the promotion tournament paradigm. 
+
+# Conclusion
+
+This paper introduces pre-tenure measures of land finance dependence and fiscal capacity and shows that this average masks meaningful heterogeneity. Subway approvals yield large and persistent promotion gains only for mayors in cities that historically relied less on land finance, while fiscal capacity shapes access to projects rather than the returns to them.
+
+These results suggest a reinterpretation of the "fiscal logic" of infrastructure-based promotion. Infrastructure functions less as a universal amplifier of land finance and more as a **substitute signal** for officials who lack easy access to land-driven growth. At the same time, risk control is delegated to administrative screening at the approval stage, rather than to ex-post political accountability for debt or fiscal fragility.
+
+More broadly, the findings illustrate how the same policy instrument-urban rail construction-can serve different political functions across local contexts: a routine complement to land finance in some cities, but a scarce and powerful promotion signal in others. Future work could extend this approach to other types of "mega-projects" and probe more directly how higher-level authorities perceive and evaluate such signals in practice.
+
+
+::: {#refs}
+:::
+
+
+# Appendix A Fiscal Capacity Analysis {.appendix}
+
+This appendix provides additional evidence for the "screening gate" interpretation of fiscal capacity discussed in Section 4. The first table documents how subway approvals are distributed across high- and low-capacity cities, while the second table shows that the main interaction results are robust to using a dummy-coded measure of low fiscal capacity.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_1.png){width="100%"} |
+: Appendix Table A1. Distribution of subway approvals by fiscal capacity group. {#tbl-fiscal-dist}
+
+Appendix Table A1 cross-tabulates mayor-year observations by pre-tenure fiscal capacity (above vs. below the median) and subway approval status. Among high fiscal capacity observations, 77 out of 1,760 mayor-years (4.4 percent) receive a subway approval. By contrast, in the low fiscal capacity group there is only 1 approval out of 1,890 mayor-years (0.1 percent). This extreme imbalance supports the claim in the main text that fiscally weak cities are effectively screened out at the approval stage: they almost never enter the "subway club" in the first place.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_2.png){width="100%"} |
+: Appendix Table A2. Fiscal capacity interaction analysis with dummy low fiscal capacity. {#tbl-fiscal-dummy}
+
+Appendix Table A2 reproduces the Table 3 interaction models but replaces the continuous fiscal capacity variable with a dummy indicator for low pre-tenure fiscal capacity. Across specifications, the interaction term *Subway $\times$ Low Fiscal Capacity* is positive and statistically significant, while the main effect of *Subway approval* (capturing the effect in the high-capacity group) remains sizeable. These results mirror the continuous interaction models in the main text: conditional on entering the sample of approved cities, there is no evidence that low fiscal capacity dampens the promotion return to subway approvals, and if anything the point estimates suggest slightly larger gains for fiscally weaker cities.
+
+
+# Appendix B More Parallel Trend Test Results for Land Dependence {.appendix}
+
+Section 4 uses event-study plots to show that the sharp divergence between high- and low-land-dependence cities after subway approval is not driven by differential pre-trends. This appendix reports the underlying regression output and joint tests for the pre-treatment coefficients.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_3.png){width="100%"} |
+: Appendix Table B1. Parallel trends tests for low land finance dependence group. {#tbl-pt-lowland}
+
+Appendix Table B1 presents the event-time regression for the low land dependence group. Coefficients on the pre-treatment leads ($\tau ??? ???2$) are individually small and imprecisely estimated, and the joint F-test fails to reject the null that they are all equal to zero. Starting in the approval year and especially for $\tau ??? 1$, the coefficients become large and statistically significant, consistent with the growing promotion premium documented in Panel B of Figure 1.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_4.png){width="100%"} |
+: Appendix Table B2. Parallel trends tests for high land finance dependence group. {#tbl-pt-highland}
+
+Appendix Table B2 reports the corresponding regression for the high land dependence group. Again, the pre-treatment coefficients are close to zero and jointly insignificant, supporting the parallel trends assumption. In contrast to the low-dependence group, however, the post-approval coefficients remain small and never reach conventional significance levels. Together, Tables B1 and B2 show that the heterogeneous dynamic patterns in Figure 1 arise from divergent post-treatment effects, not from pre-existing trends.
+
+
+# Appendix C Land and Fiscal Collinearity {.appendix}
+
+Because both land finance dependence and fiscal capacity are pre-tenure fiscal indicators, a natural concern is that they might be too highly correlated to be analyzed jointly. This appendix provides descriptive and diagnostic evidence that collinearity is moderate rather than severe.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_5.png){width="100%"} |
+: Appendix Table C1. Variance Inflation Factors for land and fiscal variables. {#tbl-vif}
+
+Appendix Table C1 reports Variance Inflation Factors (VIFs) from an auxiliary regression including both fiscal variables, their interactions with subway approval, and the two-way interaction between land dependence and fiscal capacity. The maximum VIF is 6.9 (for *Subway approval*), and the mean VIF across regressors is about 4.5. These values indicate moderate but not extreme multicollinearity: the fiscal variables are related, yet the combined specification remains informative and the main conclusions are not driven by numerical instability.
+
+![](figures/app_figure_1.png){width="80%"}
+
+Appendix Figure C1 plots the relationship between pre-tenure land finance dependence and fiscal capacity at the mayor level. The cloud of points is widely dispersed, and the fitted line has a modest positive slope with Pearson correlation around 0.18 (statistically significant but far from 1). This pattern confirms that while fiscally stronger cities tend to rely somewhat more on land revenue, the two dimensions are empirically distinct. It is therefore meaningful to interpret land finance dependence and fiscal capacity as capturing different aspects of a mayor's inherited fiscal environment.
+
+
+# Appendix D Triple Interaction {.appendix}
+
+Finally, I explore a more saturated specification that includes the full three-way interaction between subway approval, land finance dependence, and fiscal capacity. This model is not the focus of the main text but serves as a robustness check on the separate land and fiscal analyses.
+
+|                        |
+|:-----------------------|
+| ![](figures/app_table_6.png){width="100%"} |
+: Appendix Table D1. Triple interaction analysis of subway, land dependence, and fiscal capacity. {#tbl-triple}
+
+Appendix Table D1 adds all two-way interactions and the triple term *Subway High Land Dependence $\times$ Fiscal Capacity* to the baseline regression. The three-way interaction is large in magnitude but very imprecisely estimated, with a standard error that renders it far from statistically significant. The coefficients on the two-way terms are also estimated with substantial uncertainty and do not overturn the core findings: the main subway effect remains positive, and there is no consistent evidence that fiscal capacity linearly amplifies or attenuates the land-dependence heterogeneity. Given the added complexity and weaker precision of this saturated model, I treat it as supporting evidence that the simpler, separate analyses of land finance dependence and fiscal capacity capture the most robust and interpretable patterns.
+
+
+
+
+
+
+
