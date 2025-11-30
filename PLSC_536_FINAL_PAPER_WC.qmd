@@ -13,9 +13,22 @@ format:
     tbl-pos: 'tbp'
     linestretch: 1.0
     include-in-header: header.tex.
+header-includes:
+  \usepackage{amssymb}
+  \DeclareUnicodeCharacter{2013}{\textendash}
+  \DeclareUnicodeCharacter{2014}{\textemdash}
+  \DeclareUnicodeCharacter{2193}{\ensuremath{\downarrow}}
+  \DeclareUnicodeCharacter{2500}{-}
+  \DeclareUnicodeCharacter{2502}{|}
+  \DeclareUnicodeCharacter{250C}{+}
+  \DeclareUnicodeCharacter{2510}{+}
+  \DeclareUnicodeCharacter{2514}{+}
+  \DeclareUnicodeCharacter{2518}{+}
+  \DeclareUnicodeCharacter{2713}{\checkmark}
 bibliography: bibliography.bib
 abstract: | 
-  This paper re-examines the fiscal logic behind infrastructure-based promotion in China by replicating and extending Lei and Zhou's (2022) study of subway approvals. Using panel data on 327 prefecture-level cities from 2003-2016 and two-way fixed-effects and event-study models, I incorporate pre-tenure measures of land finance dependence and fiscal capacity. Replication confirms that subway approvals raise mayors' promotion probabilities on average. However, the promotion premium is large and persistent only in cities with low pre-existing land finance dependence, consistent with a "signal scarcity" mechanism. Fiscal capacity instead operates as a screening gate: fiscally weak cities almost never receive approvals, but conditional on approval, fiscal health does not systematically shape promotion returns.
+  This paper re-examines the fiscal logic behind infrastructure-based promotion in China by replicating and extending Lei and Zhou's (2022) study of subway approvals. Using panel data on 327 prefecture-level cities from 2003-2016 and two-way fixed-effects and event-study models, I incorporate pre-tenure measures of land finance dependence and fiscal capacity. Replication confirms that subway approvals raise mayors' promotion probabilities on average. However, the promotion premium is large and persistent only in cities with low pre-existing land finance dependence, consistent with a "signal scarcity" mechanism. Fiscal capacity instead operates as a screening gate: fiscally weak cities almost never receive approvals, but conditional on approval, fiscal health does not systematically shape promotion returns. 
+  Github Repository: https://github.com/WeijiaC/PLSC536_FINAL_PROJECT
 ---
 
 
@@ -99,10 +112,10 @@ To probe dynamic effects and the parallel trends assumption, I follow Lei and Zh
 \begin{equation}
 Promotion_{it}
 = \alpha
-+ \sum_{\tau \in \mathcal{T},\, \tau \neq -1} \pi_\tau D_{it}^{\tau}
-+ M_{it}'\theta + C_{i,t-1}'\gamma + \mu_i + \lambda_t + \varepsilon_{it},
++ \sum_{\substack{-5 \le \tau \le 4 \\ \tau \neq -1}} \pi_\tau D_{it}^{\tau}
++ M_{it}'\theta + C_{i,t-1}'\gamma 
++ \mu_i + \lambda_t + \varepsilon_{it},
 \end{equation}
-
 
 where the indicator for $\tau=-1$ is omitted as the reference category. The coefficients $\pi_\tau$ trace the evolution of promotion probabilities from five or more years before approval through four or more years after approval. Parallel trends are assessed by testing whether the pre-treatment coefficients ($\pi_{-5}, \pi_{-4}, \pi_{-3}, \pi_{-2}$) are jointly zero; the corresponding regression tables are reported in the appendix.
 
@@ -169,16 +182,19 @@ More broadly, the findings illustrate how the same policy instrument-urban rail 
 :::
 
 
-# Appendix A Fiscal Capacity Analysis {.appendix}
+# Appendix A: Fiscal Capacity Analysis {.appendix .unnumbered}
+
 
 This appendix provides additional evidence for the "screening gate" interpretation of fiscal capacity discussed in Section 4. The first table documents how subway approvals are distributed across high- and low-capacity cities, while the second table shows that the main interaction results are robust to using a dummy-coded measure of low fiscal capacity.
+
+Appendix Table A1 cross-tabulates mayor-year observations by pre-tenure fiscal capacity (above vs. below the median) and subway approval status. Among high fiscal capacity observations, 77 out of 1,760 mayor-years (4.4 percent) receive a subway approval. By contrast, in the low fiscal capacity group there is only 1 approval out of 1,890 mayor-years (0.1 percent). This extreme imbalance supports the claim in the main text that fiscally weak cities are effectively screened out at the approval stage: they almost never enter the "subway club" in the first place.
 
 |                        |
 |:-----------------------|
 | ![](figures/app_table_1.png){width="100%"} |
 : Appendix Table A1. Distribution of subway approvals by fiscal capacity group. {#tbl-fiscal-dist}
 
-Appendix Table A1 cross-tabulates mayor-year observations by pre-tenure fiscal capacity (above vs. below the median) and subway approval status. Among high fiscal capacity observations, 77 out of 1,760 mayor-years (4.4 percent) receive a subway approval. By contrast, in the low fiscal capacity group there is only 1 approval out of 1,890 mayor-years (0.1 percent). This extreme imbalance supports the claim in the main text that fiscally weak cities are effectively screened out at the approval stage: they almost never enter the "subway club" in the first place.
+
 
 |                        |
 |:-----------------------|
@@ -187,27 +203,33 @@ Appendix Table A1 cross-tabulates mayor-year observations by pre-tenure fiscal c
 
 Appendix Table A2 reproduces the Table 3 interaction models but replaces the continuous fiscal capacity variable with a dummy indicator for low pre-tenure fiscal capacity. Across specifications, the interaction term *Subway $\times$ Low Fiscal Capacity* is positive and statistically significant, while the main effect of *Subway approval* (capturing the effect in the high-capacity group) remains sizeable. These results mirror the continuous interaction models in the main text: conditional on entering the sample of approved cities, there is no evidence that low fiscal capacity dampens the promotion return to subway approvals, and if anything the point estimates suggest slightly larger gains for fiscally weaker cities.
 
+\newpage
 
-# Appendix B More Parallel Trend Test Results for Land Dependence {.appendix}
+# Appendix B: More Parallel Trend Test Results for Land Dependence {.appendix .unnumbered}
+
 
 Section 4 uses event-study plots to show that the sharp divergence between high- and low-land-dependence cities after subway approval is not driven by differential pre-trends. This appendix reports the underlying regression output and joint tests for the pre-treatment coefficients.
+
+Appendix Table B1 presents the event-time regression for the low land dependence group. Coefficients on the pre-treatment leads ($\tau ??? ???2$) are individually small and imprecisely estimated, and the joint F-test fails to reject the null that they are all equal to zero. Starting in the approval year and especially for $\tau ??? 1$, the coefficients become large and statistically significant, consistent with the growing promotion premium documented in Panel B of Figure 1.
 
 |                        |
 |:-----------------------|
 | ![](figures/app_table_3.png){width="100%"} |
 : Appendix Table B1. Parallel trends tests for low land finance dependence group. {#tbl-pt-lowland}
 
-Appendix Table B1 presents the event-time regression for the low land dependence group. Coefficients on the pre-treatment leads ($\tau ??? ???2$) are individually small and imprecisely estimated, and the joint F-test fails to reject the null that they are all equal to zero. Starting in the approval year and especially for $\tau ??? 1$, the coefficients become large and statistically significant, consistent with the growing promotion premium documented in Panel B of Figure 1.
+Appendix Table B2 reports the corresponding regression for the high land dependence group. Again, the pre-treatment coefficients are close to zero and jointly insignificant, supporting the parallel trends assumption. In contrast to the low-dependence group, however, the post-approval coefficients remain small and never reach conventional significance levels. Together, Tables B1 and B2 show that the heterogeneous dynamic patterns in Figure 1 arise from divergent post-treatment effects, not from pre-existing trends.
+
 
 |                        |
 |:-----------------------|
 | ![](figures/app_table_4.png){width="100%"} |
 : Appendix Table B2. Parallel trends tests for high land finance dependence group. {#tbl-pt-highland}
 
-Appendix Table B2 reports the corresponding regression for the high land dependence group. Again, the pre-treatment coefficients are close to zero and jointly insignificant, supporting the parallel trends assumption. In contrast to the low-dependence group, however, the post-approval coefficients remain small and never reach conventional significance levels. Together, Tables B1 and B2 show that the heterogeneous dynamic patterns in Figure 1 arise from divergent post-treatment effects, not from pre-existing trends.
+\newpage
+
+# Appendix C: Land and Fiscal Collinearity {.appendix .unnumbered}
 
 
-# Appendix C Land and Fiscal Collinearity {.appendix}
 
 Because both land finance dependence and fiscal capacity are pre-tenure fiscal indicators, a natural concern is that they might be too highly correlated to be analyzed jointly. This appendix provides descriptive and diagnostic evidence that collinearity is moderate rather than severe.
 
@@ -222,8 +244,10 @@ Appendix Table C1 reports Variance Inflation Factors (VIFs) from an auxiliary re
 
 Appendix Figure C1 plots the relationship between pre-tenure land finance dependence and fiscal capacity at the mayor level. The cloud of points is widely dispersed, and the fitted line has a modest positive slope with Pearson correlation around 0.18 (statistically significant but far from 1). This pattern confirms that while fiscally stronger cities tend to rely somewhat more on land revenue, the two dimensions are empirically distinct. It is therefore meaningful to interpret land finance dependence and fiscal capacity as capturing different aspects of a mayor's inherited fiscal environment.
 
+\newpage
+# Appendix D: Triple Interaction {.appendix .unnumbered}
 
-# Appendix D Triple Interaction {.appendix}
+
 
 Finally, I explore a more saturated specification that includes the full three-way interaction between subway approval, land finance dependence, and fiscal capacity. This model is not the focus of the main text but serves as a robustness check on the separate land and fiscal analyses.
 
@@ -238,5 +262,594 @@ Appendix Table D1 adds all two-way interactions and the triple term *Subway High
 
 
 
+\newpage
+
+# Appendix E: Explnation of My Coding Logics for Replicating Figure 2 & Table A14 {.appendix .unnumbered}
+
+This technical appendix E and the next Appendix F provide a comprehensive explanation of the code logic underlying Section 5 (Data Preparation for Dynamic Analysis) and Section 6 (Figure $2$ Replication) of the main analysis I did for this extension paper. Particularly, Appendix E focuses on explanation of my coding logic to replicate the updated coding results for Figure $2$ and Table A14 of the original paper (after coding fixed by Lei and  Zhou (2025)) - the coding logic for constructing event-study variables used in the dynamic analysis and regression. Note: My code is already different to the code and results generated by the original version of the authors provided in 2022, and I updated my code following the exactly logic of the newest coding logic from Lei and Zhou's stata code. You may find their new stata code here: https://github.com/zjl0714/lei_zhou_jop_2022/blob/main/2_summary_statistics.do. 
+This Appendix also details each code block with formal explanations and empirical illustrations using real observations from the dataset.
+
+The core objective is to construct three sets of indicator variables:
+
+| Variable Type | Interpretation | Purpose |
+|:--------------|:---------------|:--------|
+| `mpprior1-5` | Years 1-5 before approval | Testing pre-trends (parallel trends assumption) |
+| `mpconn0-4` | Approval year and years 1-4 after | Measuring treatment effects during tenure |
+| `mppost1-4` | Years 1-4 after mayor leaves office | Measuring post-treatment persistence |
 
 
+In Appendix F, according to the document provided by Lorenzo De Rosa, old author's code and new authors' code, I did more robustness checking to see the difference and results change, It is a summary of the different model variation and coding logic which leading to slightly different results. 
+
+## E.1: Empirical Examples from the Dataset {.unnumbered}
+
+Before proceeding to the code explanation, I present two illustrative cases from the dataset that will be referenced throughout this appendix.
+
+### E.1.1: Case 1 - Shijiazhuang (City Code: 1301) - Single Approval Episode {.unnumbered}
+
+Shijiazhuang received subway approval in a single year (2012), providing a clean example for understanding the basic variable construction logic.
+
+| Year | Mayor_plan | Mayor_leaderindex | Description |
+|:-----|:-----------|:------------------|:------------|
+| 2003 | 0 | 5 | Mayor 5, no approval |
+| 2004 | 0 | 5 | Mayor 5, no approval |
+| 2005 | 0 | 6 | New mayor 6, no approval |
+| 2006 | 0 | 6 | Mayor 6, no approval |
+| 2007 | 0 | 7 | New mayor 7, no approval |
+| 2008 | 0 | 7 | Mayor 7, no approval |
+| 2009 | 0 | 8 | New mayor 8, no approval |
+| 2010 | 0 | 8 | Mayor 8, no approval |
+| 2011 | 0 | 8 | Mayor 8, no approval |
+| **2012** | **1** | **9** | **New mayor 9, approval granted** |
+| 2013 | 0 | 10 | New mayor 10, no approval |
+| 2014 | 0 | 10 | Mayor 10, no approval |
+| 2015 | 0 | 10 | Mayor 10, no approval |
+| 2016 | 0 | 11 | New mayor 11, no approval |
+
+**Key features:** Single approval year in 2012; the approving mayor (index 9) served only one year with approval status; subsequent mayors did not receive additional approvals.
+
+In this particular example there are no observations after the original approving mayor leaves office, so all post-tenure indicators `mppost1-4` and the collapsed variable `mppost_any` are equal to zero in the underlying code. In more complex trajectories with a non-empty post-tenure period, years in which the city remains in the post-approval state but the approving mayor is no longer in office are coded with `mppost_any = 1`. Including this variable as an additional regressor in the event-study specification ensures that the average post-treatment level shift is controlled for, and that the dynamic coefficients on $mpconn0$ - $mpconn4$ reflect effects during the approving mayor's tenure rather than post-tenure dynamics.
+
+
+### E.1.2: Case 2 - Hefei (City Code: 3401) - Multiple Approval Episodes {.unnumbered}
+
+Hefei exhibits two distinct approval episodes under different mayors, illustrating how the code handles mayoral transitions and "chain breaks."
+
+| Year | Mayor_plan | Mayor_leaderindex | Description |
+|:-----|:-----------|:------------------|:------------|
+| 2003 | 0 | 839 | Mayor 839, no approval |
+| 2004 | 0 | 839 | Mayor 839, no approval |
+| 2005 | 0 | 839 | Mayor 839, no approval |
+| 2006 | 0 | 839 | Mayor 839, no approval |
+| 2007 | 0 | 839 | Mayor 839, no approval |
+| 2008 | 0 | 839 | Mayor 839, no approval |
+| 2009 | 0 | 839 | Mayor 839, no approval |
+| **2010** | **1** | **840** | **Mayor 840, first approval** |
+| **2011** | **1** | **840** | **Mayor 840, continued approval** |
+| 2012 | 0 | 841 | New mayor 841, no approval |
+| 2013 | 0 | 841 | Mayor 841, no approval |
+| **2014** | **1** | **841** | **Mayor 841, new approval** |
+| **2015** | **1** | **841** | **Mayor 841, continued approval** |
+| **2016** | **1** | **841** | **Mayor 841, continued approval** |
+
+**Key features:** Two approval waves-2010-2011 under Mayor 840 and 2014-2016 under Mayor 841; demonstrates the "chain break" phenomenon when mayors change.
+
+
+## E.2: Data Preparation for Dynamic Analysis - R Code Section 5 {.unnumbered}
+
+```r
+safe_lag <- function(x, n=1) lag(x, n, default = 0)
+safe_lead <- function(x, n=1) lead(x, n, default = 0)
+```
+
+**Explanation:** These wrapper functions modify the standard `dplyr::lag()` and `dplyr::lead()` functions by specifying `default = 0` instead of the default `NA`. This modification serves two purposes:
+
+1. **Computational stability:** Subsequent conditional statements using `if_else()` require non-missing logical evaluations. Standard lag/lead functions return `NA` at panel boundaries, which would propagate through conditional logic.
+
+2. **Conservative assumption:** By defaulting to $0$, the code implicitly assumes that observations outside the data window have `Mayor_plan = 0` (no approval). This is a conservative but potentially biasing assumption discussed in the end of E.$2$ section. Also in the next Appendix, you should see I did more robustness check and comparison by different ways to treat the boundary edge case. 
+
+**Illustration using Shijiazhuang (1301):**
+
+| Year | Mayor_plan | safe_lag() | safe_lead() | Notes |
+|:-----|:-----------|:-----------|:------------|:------|
+| 2003 | 0 | **0** (default) | 0 | No data before 2003; default applied |
+| 2011 | 0 | 0 | **1** | Lead captures 2012 approval |
+| 2012 | **1** | 0 | 0 | Lag captures 2011 (no approval) |
+| 2013 | 0 | **1** | 0 | Lag captures 2012 approval |
+| 2016 | 0 | 0 | **0** (default) | No data after 2016; default applied |
+
+```r
+df_dyn <- df_analysis |> group_by(City_Code)
+```
+
+**Explanation:** This operation groups the data by city, ensuring that all subsequent `lag()` and `lead()` operations are performed **within each city's time series**. Without this grouping, the functions would incorrectly reference observations from different cities, producing meaningless temporal comparisons.This is where Rosa argued that old version of authors' code did not define the units of the time series cross-section, and then the coding bleeds into irrelevant municipalities.
+
+
+### E.2.1: Treatment Onset Indicator (mpconn0) {.unnumbered}
+
+```r
+df_dyn <- df_dyn |>
+  mutate(
+    lag_plan = safe_lag(Mayor_plan),
+    lag_leader = safe_lag(Mayor_leaderindex), 
+    mpconn0 = case_when(
+      lag_plan == 0 & Mayor_plan == 1 ~ 1,
+      lag_plan == 1 & Mayor_plan == 1 & lag_leader 
+      != Mayor_leaderindex ~ 1,
+      TRUE ~ 0
+    )
+  )
+```
+
+**Explanation:** The variable `mpconn0` identifies the **onset year** of subway approval for a given mayor. Two conditions trigger `mpconn0 = 1`:
+
+| Condition | Logic | Interpretation |
+|:----------|:------|:---------------|
+| A | `lag_plan == 0 & Mayor_plan == 1` | First approval: no approval last year, approval this year |
+| B | `lag_plan == 1 & Mayor_plan == 1 & lag_leader != Mayor_leaderindex` | New mayor inherits ongoing approval and initiates a new spell |
+
+Condition B is particularly important: when a new mayor takes office in a city that already has approval status, the new mayor's approval spell begins anew. This reflects the substantive interpretation that political credit for infrastructure accrues to the incumbent mayor.
+
+Note: This is updated by author's new version of code and result compared to their old one. I followed their new logic here. 
+
+**Illustration using Hefei (3401):**
+
+| Year | Mayor_plan | Leader | lag_plan | lag_leader | mpconn0 | Explanation |
+|:-----|:-----------|:-------|:---------|:-----------|:--------|:------------|
+| 2009 | 0 | 840 | 0 | 840 | 0 | No approval |
+| **2010** | **1** | **840** | 0 | 840 | **1** | Condition A: new approval |
+| 2011 | 1 | 840 | 1 | 840 | 0 | Continuation, not onset |
+| 2012 | 0 | 841 | 1 | 840 | 0 | No approval this year |
+| 2013 | 0 | 841 | 0 | 841 | 0 | No approval |
+| **2014** | **1** | **841** | 0 | 841 | **1** | Condition A: new approval |
+| 2015 | 1 | 841 | 1 | 841 | 0 | Continuation, not onset |
+| 2016 | 1 | 841 | 1 | 841 | 0 | Continuation, not onset |
+
+
+
+### E.2.2: Tenure Duration Indicators (mpconn1 through mpconn13) {.unnumbered}
+
+Note: I used exactly the same variable name and year (1-13) as authors did in their new stata code. The 
+reason for 13 is because the datat range is from 2003 to 2016, in total 13 years. The same for the pre-treatment indicators and post-tenure. 
+
+```r
+for(i in 1:13) {
+  curr <- paste0("mpconn", i)
+  prev <- paste0("mpconn", i-1)
+  df_dyn <- df_dyn |>
+    mutate(!!curr := if_else(safe_lag(get(prev)) == 1 & 
+                               safe_lag(Mayor_leaderindex) == Mayor_leaderindex & 
+                               Mayor_plan == 1, 1, 0))
+}
+```
+
+**Explanation:** This loop constructs indicators for years $1$ through $13$ following approval onset, conditional on the **same mayor remaining in office**. The construction is recursive: `mpconn_i` depends on `mpconn_{i-1}`.
+
+**Three conditions must jointly hold for `mpconn_i = 1`:**
+
+| Condition | Code | Interpretation |
+|:----------|:-----|:---------------|
+| 1 | `safe_lag(get(prev)) == 1` | Previous year was year $i-1$ of approval spell |
+| 2 | `safe_lag(Mayor_leaderindex) == Mayor_leaderindex` | Same mayor as previous year |
+| 3 | `Mayor_plan == 1` | Approval status continues |
+
+**Critical feature:** If the mayor changes, the chain "breaks" even if approval continues. This reflects the substantive focus on **individual mayoral returns** to approval.
+
+**Illustration using Hefei (3401):**
+
+| Year | Mayor_plan | Leader | mpconn0 | mpconn1 | mpconn2 | Notes |
+|:-----|:-----------|:-------|:--------|:--------|:--------|:------|
+| **2010** | 1 | 840 | **1** | 0 | 0 | Approval onset |
+| **2011** | 1 | 840 | 0 | **1** | 0 | Year 1 post-onset |
+| 2012 | 0 | 841 | 0 | 0 | 0 | Mayor change; chain breaks |
+| 2013 | 0 | 841 | 0 | 0 | 0 | No approval |
+| **2014** | 1 | 841 | **1** | 0 | 0 | New approval onset |
+| **2015** | 1 | 841 | 0 | **1** | 0 | Year 1 post-onset |
+| **2016** | 1 | 841 | 0 | 0 | **1** | Year 2 post-onset |
+
+
+### E.2.3: Pre-Treatment Lead Indicators (mpprior1 through mpprior13) {.unnumbered}
+
+```r
+for(i in 1:13) {
+  curr <- paste0("mpprior", i)
+  df_dyn <- df_dyn |>
+    mutate(lead_target = safe_lead(Mayor_plan, i)) |>
+    mutate(!!curr := if_else(Mayor_plan == 0 & lead_target == 1, 1, 0))
+  
+  if(i > 1) {
+    for(x in 1:(i-1)) {
+      df_dyn <- df_dyn |>
+        mutate(!!curr := if_else(safe_lead(Mayor_plan, x) == 1, 0, get(curr)))
+    }
+  }
+}
+```
+
+**Explanation:** These indicators identify years **prior to** approval. The construction proceeds in two steps:
+
+**Step 1 (Initial marking):** Mark `mpprior_i = 1` if the current year has no approval but year $t+i$ does.
+
+**Step 2 (Exclusion of nearer approvals):** If any year $t+x$ (where $x < i$) also has approval, set `mpprior_i = 0`. This ensures each observation is assigned to the **nearest** upcoming approval.
+
+**Rationale:** Without Step 2, an observation could be simultaneously marked as `mpprior3 = 1` and `mpprior5 = 1` if approvals occur in both $t+3$ and $t+5$. The nested loop ensures mutual exclusivity. This is followed authors' new stata code but Rosa's code does not consider this. 
+
+**Illustration using Shijiazhuang (1301) with 2012 approval:**
+
+| Year | Mayor_plan | mpprior3 | mpprior2 | mpprior1 | Notes |
+|:-----|:-----------|:---------|:---------|:---------|:------|
+| 2009 | 0 | **1** | 0 | 0 | 3 years before 2012 |
+| 2010 | 0 | 0 | **1** | 0 | 2 years before 2012 |
+| 2011 | 0 | 0 | 0 | **1** | 1 year before 2012 |
+| **2012** | **1** | 0 | 0 | 0 | Approval year |
+
+**Key property:** At most one `mpprior` indicator equals 1 for any given observation.
+
+
+### E.2.4: Post-Tenure Indicators (mppost1 through mppost13) {.unnumbered}
+
+```r
+for(i in 1:13) {
+  curr <- paste0("mppost", i)
+  df_dyn <- df_dyn |>
+    mutate(lag_target = safe_lag(Mayor_plan, i)) |>
+    mutate(!!curr := if_else(Mayor_plan == 0 & lag_target == 1, 1, 0))
+  
+  if(i > 1) {
+    for(x in 1:(i-1)) {
+      df_dyn <- df_dyn |>
+        mutate(!!curr := if_else(safe_lag(Mayor_plan, x) == 1, 0, get(curr)))
+    }
+  }
+}
+```
+
+**Explanation:** The logic mirrors above but operates in reverse temporal direction using `lag()` instead of `lead()`. These indicators capture years **after** approval ends.
+
+
+### E.2.5: Endpoint Binning {.unnumbered}
+
+```r
+row_sum_regex <- function(d, pat) as.integer(rowSums(d[, grep(pat, names(d))]) > 0)
+
+df_reg <- df_dyn |> ungroup() |>
+  mutate(
+    mpprior5 = row_sum_regex(cur_data(), "mpprior([5-9]|1[0-3])"),
+    mpconn4  = row_sum_regex(cur_data(), "mpconn([4-9]|1[0-3])"),
+    mppost4  = row_sum_regex(cur_data(), "mppost([4-9]|1[0-3])"),
+    mppost_any = row_sum_regex(cur_data(), "mppost[0-9]")
+  )
+```
+
+**Explanation:** Following Lei and Zhou's updated code, distant event-time indicators are collapsed ("binned") into single endpoints. This serves multiple purposes:
+
+**Rationale for binning:**
+
+1. **Sample size constraints:** Observations far from treatment (e.g., 10+ years before/after) are sparse, leading to imprecise estimates.
+
+2. **Degrees of freedom:** Retaining all 40 indicators (`mpprior1-13`, `mpconn0-13`, `mppost1-13`) would consume substantial degrees of freedom.
+
+3. **Theoretical focus:** The economically relevant dynamics typically occur within a few years of treatment; distant effects are of secondary interest.
+
+**Binning scheme (following original authors):**
+
+| Original Variables | Binned Variable | Interpretation |
+|:-------------------|:----------------|:---------------|
+| `mpprior5` through `mpprior13` | `mpprior5` | 5+ years before approval |
+| `mpconn4` through `mpconn13` | `mpconn4` | 4+ years after approval onset |
+| `mppost4` through `mppost13` | `mppost4` | 4+ years after approval ends |
+| `mppost1` through `mppost9` | `mppost_any` | Any post-tenure year (control) |
+
+**The `mppost_any` variable** serves as a control in the main event-study regression but is not plotted, as the focus is on within-tenure dynamics.
+
+
+### E.2.6: Missing Value Treatment {.unnumbered}
+
+```r
+vars_clean <- c(paste0("mpprior", 1:5), 
+                paste0("mpconn", 0:4), 
+                paste0("mppost", 1:4), 
+                "mppost_any")
+df_reg[vars_clean][is.na(df_reg[vars_clean])] <- 0
+```
+
+**Explanation:** After the preceding transformations, some observations may still contain `NA` values in the event-time indicators. These arise from edge cases in the panel structure. This code replaces all remaining `NA` values with $0$.
+
+### E.2.7: Boundary Case Analysis {.unnumbered}
+
+The dataset spans **2003-2016**, creating truncation issues at both endpoints. In the end of this section, I illustrate these boundary cases using real observations and discusses the implications of the current coding approach.
+
+Case Study: Shenyang (City Code: 2101) - Left Truncation
+
+Shenyang received its first subway approval in **2005**, near the beginning of the sample period.
+
+| Year | Mayor_plan | Leader | Event-Time | Ideal mpprior | Actual mpprior |
+|:-----|:-----------|:-------|:-----------|:--------------|:---------------|
+| 2000 | - | - | $t-5$ | mpprior5 = 1 | **No data** |
+| 2001 | - | - | $t-4$ | mpprior4 = 1 | **No data** |
+| 2002 | - | - | $t-3$ | mpprior3 = 1 | **No data** |
+| 2003 | $0$ | 302 | $t-2$ | mpprior2 = 1 | $\checkmark$ Observable |
+| 2004 | $0$ | 302 | $t-1$ | mpprior1 = 1 | $\checkmark$ Observable |
+| **2005** | **1** | **302** | $t=0$ | mpconn0 = 1 | $\checkmark$ Observable |
+
+**Implication:** For cities with early approvals, pre-trend indicators `mpprior3`, `mpprior4`, and `mpprior5` cannot be constructed because the required years fall outside the sample window. These years are effectively treated as non-approval, consistent with the use of `default = 0` in the lag/lead functions.
+
+Case Study: Wuhu (City Code: 3402) - Right Truncation
+
+Wuhu received subway approval in **2016**, the final year of the sample.
+
+| Year | Mayor_plan | Leader | Event-Time | Ideal mpconn | Actual mpconn |
+|:-----|:-----------|:-------|:-----------|:-------------|:--------------|
+| **2016** | **1** | **849** | $t=0$ | mpconn0 = 1 | $\checkmark$ Observable |
+| 2017 | - | - | $t+1$ | mpconn1 = 1 | **No data** |
+| 2018 | - | - | $t+2$ | mpconn2 = 1 | **No data** |
+| 2019 | - | - | $t+3$ | mpconn3 = 1 | **No data** |
+| 2020 | - | - | $t+4$ | mpconn4 = 1 | **No data** |
+
+**Implication:** For cities with late approvals, post-treatment indicators `mpconn1` through `mpconn4` cannot be constructed. The recursive chain does not extend beyond the sample boundary, and these years are effectively absent from the panel.
+
+Implicit Assumptions and Trade-offs:
+
+| Aspect | Current Approach | Implication |
+|:-------|:-----------------|:------------|
+| Out-of-sample values | `default = 0` | Treated as "no approval" |
+| Missing indicators | Set to $0$ | Observations contribute to control group |
+| Sample composition | Unbalanced by event-time | Distant bins have smaller $N$ |
+
+**Advantages:**
+
+1. Simplicity: no complex imputation or sample restriction is required.
+2. Conservatism: out-of-sample observations do not spuriously contribute to treatment effects.
+3. Internal consistency: uses a single, coherent treatment of boundary cases across all dynamic indicators.
+
+
+**Limitations:**
+
+1. **Potential bias:** Systematic differences between early/late approvers and mid-sample approvers could bias endpoint estimates.
+2. **Reduced power:** Smaller sample sizes for `mpprior5` and `mpconn4` increase standard errors.
+3. **Interpretation ambiguity:** The binned endpoints mix true "distant" effects with truncation artifacts.
+
+**Robustness consideration:** Researchers may consider restricting the sample to cities with approvals in 2008-2013, ensuring balanced observation windows, though this reduces sample size substantially.
+
+Note: in the next Appendix, I will do other ways to treat boundary case and check any difference existed or not. 
+
+## E.3: Figure 2 and Table A14 Generation - R code Section 6 & 7 {.unnumbered}
+
+### E.3.1: Regression Specification {.unnumbered}
+
+```r
+f_fig2 <- as.formula(paste(
+  "Mayor_promotion3y ~ mpprior5 + mpprior4 + mpprior3 + mpprior2 +",
+  "mpconn0 + mpconn1 + mpconn2 + mpconn3 + mpconn4 + mppost_any",
+  "| Year + City_Code"
+))
+
+m_fig2 <- felm(f_fig2, data = df_reg)
+```
+
+**Explanation:** This specification regresses the three-year promotion indicator `Mayor_promotion3y` on a set of event-time dummies and fixed effects. The regressors `mpprior5` through `mpprior2` summarize pre-approval periods, while `mpconn0` through `mpconn4` capture the approval year and the first four years after approval during the same mayoral tenure.
+
+In addition, the dummy `mppost_any` is coded as one for all post-tenure observations in which the city remains in the post-approval state. Including `mppost_any` in the right-hand side absorbs the average level shift associated with these post-treatment observations and prevents them from contaminating the estimated coefficients on `mpconn0`-`mpconn4`. In other words, the dynamic coefficients of interest are identified from within-tenure variation around the approval event, while the residual post-treatment period is controlled for by a single, saturated indicator.
+This is also one of the obvisou revision did by Lei & Zhou in their 2025 coding version and results. 
+
+Year and city fixed effects (`Year + City_Code` in the formula) control for common calendar-year shocks and time-invariant differences across cities. The omitted category is `mpprior1` ($t = -1$), so all reported coefficients are interpreted relative to the year immediately preceding approval.
+
+### E.3.2: Coefficient Extraction {.unnumbered}
+
+```r
+coefs95 <- summary(m_fig2)$coefficients
+se <- coefs95[, 2]
+est <- coefs95[, 1]
+```
+
+**Explanation:** Extracts point estimates (column 1) and standard errors (column 2) from the regression output.
+
+For the plotting part, I omitted to discuss since they are irrelevant to technical and statistical analysis and comparison. 
+
+### E.3.3: Summary: Interpretation of Event-Study Coefficients {.unnumbered}
+
+The resulting event-study plot displays coefficients for each event time from $\tau = -5$ to $\tau = -2$, with $\tau = -1$ as the reference category. Pre-treatment coefficients ($\tau \leq -2$) summarize the behavior of promotion probabilities before approval, while coefficients for $\tau \geq 0$ describe the dynamic response following subway approval. The inclusion of `mppost_any` in the regression ensures that these within-tenure dynamics are estimated conditional on a separate control for the post-treatment period after the approving mayor has left office.
+
+
+\newpage
+
+
+# Appendix F: Explanation of Boundary Handling Logic vs Lei & Zhou (2022 vs 2025) vs Rosa (2025) {.appendix .unnumbered}
+
+This appendix provides a systematic comparison of different implementations of the dynamic event study analysis, examining how my R code relates to Lei and Zhou's original Stata code (2022), their updated replication code (2025), and Lorenzo Rosa's (2025) alternative approach. I document key differences in variable construction, identify errors in earlier implementations that have since been corrected, and evaluate four alternative strategies for handling boundary observations in event study designs.
+
+## F.1 Re-Discussion of Implementation Approaches {.unnumbered}
+
+The dynamic event study framework requires constructing indicator variables that track the temporal relationship between each observation and the treatment event. Four distinct implementations have emerged in the literature surrounding Lei and Zhou's study, each embodying different assumptions about how to handle boundary cases where the panel structure prevents complete observation of the event window.
+
+My R implementation follows the core logic of Lei and Zhou's updated 2025 Stata code while making the underlying assumptions explicit and testable. The implementation uses `lag()` and `lead()` functions with `default = 0` to handle out-of-sample observations, constructs mayor-specific treatment indicators that reset when leadership changes, and bins distant event-time periods into aggregate endpoint categories. This approach preserves the full sample of 3,647 observations while acknowledging that boundary observations receive imputed values.
+
+Lei and Zhou's original 2022 Stata code contained several coding errors that affected the construction of event-time indicators. Their updated 2025 code corrected these issues and added the `mppost_any` control variable to absorb post-tenure variation. Rosa (2025) proposed an alternative implementation using simple lag and lead operators without default value imputation, allowing missing values to propagate and relying on listwise deletion during estimation.
+
+## F.2 Key Differences Across Implementations {.unnumbered}
+
+The implementations differ along three primary dimensions: the treatment of boundary observations, the handling of mayor transitions, and the inclusion of post-tenure controls.
+
+Regarding boundary observations, my R code and Lei and Zhou's updated Stata code both use zero-imputation for out-of-sample values. When a lag or lead operation requests data from years outside the 2003-2016 panel window, the function returns zero rather than a missing value. This embodies the conservative assumption that unobserved years represent the empirically dominant state of no subway approval. Rosa's approach instead allows these operations to return missing values, which propagate through subsequent calculations and ultimately exclude affected observations from estimation through listwise deletion.
+
+Regarding mayor transitions, my implementation and Lei and Zhou's code both track mayor identity when constructing treatment indicators. The `mpconn` variables reset to `mpconn0` when a new mayor takes office in a city that already has subway approval, reflecting the conceptual distinction between mayors who secured approval and those who inherited it. This mayor-level tracking is essential for the research question, which concerns the political returns to the individual who obtained approval. Rosa's simple lag/lead approach does not incorporate mayor tracking, instead treating subway approval as a city-level rather than mayor-level treatment.
+
+Regarding post-tenure controls, my implementation and Lei and Zhou's 2025 code include `mppost_any` as a control variable to absorb variation from observations where the city retains approval status but the approving mayor has left office. This addition was absent from the original 2022 code and represents an important methodological improvement, as discussed in Appendix G.
+
+## F.3 Corrections to Earlier Implementation Errors {.unnumbered}
+
+Lei and Zhou's original 2022 Stata code contained errors in the construction of pre-treatment and post-treatment indicators. The condition for `mpprior5` incorrectly used `F5.Mayor_plan == 0` instead of `F5.Mayor_plan == 1`, effectively reversing the indicator's meaning. A similar error affected `mppost4`. Additionally, the original specification omitted explicit controls for post-tenure observations, allowing these years to contaminate the estimated treatment effects.
+
+My R implementation avoids these errors by following the corrected logic from Lei and Zhou's 2025 code. The `mpprior` indicators are constructed to equal one when `Mayor_plan == 0` in the current period and `lead(Mayor_plan, k) == 1` for the appropriate horizon $k$, correctly identifying years that precede eventual approval. The `mppost` indicators similarly use `lag()` rather than `lead()` to identify years following approval, and the `mppost_any` aggregator provides explicit control for post-tenure observations.
+
+## F.4 Addressing Rosa's Methodological Concerns {.unnumbered}
+
+Rosa (2025) raised concerns about the implicit assumptions embedded in zero-imputation for boundary observations. His proposed alternative uses simple lag and lead operators without specifying default values, generating missing values at panel boundaries that are subsequently excluded through listwise deletion. While this approach has the virtue of transparency regarding missing data, it reduces the effective sample size from 3,647 to approximately 1,269 observations, raising concerns about statistical power and potential selection bias.
+
+My implementation addresses Rosa's concerns through a different strategy: rather than abandoning zero-imputation, I make the assumption explicit and test its consequences through sensitivity analysis. The four-method comparison presented below demonstrates that the substantive findings are robust to alternative boundary handling strategies, including Rosa's approach. This robustness provides reassurance that the results do not depend critically on the choice of imputation method.
+
+Furthermore, Rosa's simple lag/lead construction fundamentally changes what the coefficients measure. Without mayor-level tracking, the treatment effect estimates conflate the political returns to mayors who secured approval with the outcomes for mayors who inherited existing approval status. This distinction is central to Lei and Zhou's research question and motivates the more complex variable construction used in my implementation and their updated code.
+
+## F.5 Four Alternative Boundary Handling Methods {.unnumbered}
+
+
+To assess the sensitivity of results to boundary handling choices, I implement and compare four distinct approaches. The accompanying R code (`Robustness_Check.R`) provides complete implementations enabling full replication.
+
+
+**Method $0$: Original Approach with Binning.** This method uses `default = 0` in lag and lead functions to impute values for out-of-sample observations, then bins distant event-time indicators into endpoint categories. Variables `mpprior5` through `mpprior13` collapse into a single `mpprior5` representing five or more years before approval, and `mpconn4` through `mpconn13` collapse into `mpconn4` representing four or more years after approval. This approach preserves the full sample of 3,647 observations while providing interpretable aggregate coefficients for distant periods.
+
+**Method 1: Direct Truncation Without Binning.** This method simplifies the analysis by constructing only the core event-time indicators (`mpprior1` through `mpprior5`, `mpconn0` through `mpconn4`) without creating and then collapsing distant indicators. Observations more than five years before or four years after approval contribute to the omitted baseline category. This approach also retains all 3,647 observations but provides cleaner interpretation of individual coefficients.
+
+**Method 2: Balanced Sample Exclusion.** This method restricts the sample to cities whose approval timing permits complete observation of the event window. By including only cities with first approval between 2008 and 2012, the method ensures at least five years of pre-trend observation and four years of post-treatment observation for all retained units. This approach eliminates boundary truncation entirely but reduces the sample substantially to approximately 210 observations.
+
+**Method 3: Simple Lag/Lead with NA.** Following Rosa's suggestion and coding logic, this method uses lag and lead operators without specifying default values, allowing missing values to propagate to boundary observations. The regression then performs listwise deletion, excluding any observation with missing values in the event-time indicators. This approach produces an effective sample of approximately 1,269 observations after deletion.
+
+## F.6 Comparative Results {.unnumbered}
+
+Table F$1$ presents coefficient estimates from all four methods using consistent variable labels. Despite different sample sizes and boundary handling strategies, the core findings demonstrate remarkable consistency across methods.
+
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_f_table1.png){width="100%"} |
+: Appendix Table F1. Boundary Handling Methods Comparison {#tbl-boundary-methods width="6.5in"}}
+
+
+The pre-trend coefficients provide support for the parallel trends assumption across all four methods. In Methods $0$, $1$, and $2$, coefficients on "To be approved in 5 or more years" through "To be approved in 2 years" are statistically insignificant and close to zero, indicating no systematic differences between treated and control cities prior to approval. Method 3 produces somewhat different pre-trend estimates due to the different sample composition, but the pattern remains consistent with parallel trends.
+
+The treatment effect coefficients show the expected dynamic pattern in all specifications. Effects are small and statistically insignificant in the approval year and first two years afterward, then become large and significant by years three and four. In Method $0$, the coefficients on "Approved for 3 years" and "Approved for 4 or more years" are 0.58 and 0.64 respectively, both significant at conventional levels. Methods $1$ and $2$ produce similar point estimates with comparable significance. Method 3 produces smaller coefficients, likely reflecting both the reduced sample size and the absence of mayor-level tracking in the variable construction.
+
+Figure F$1$ displays event study plots for all four methods, enabling visual comparison of the dynamic treatment effect patterns.
+
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_f_figure1.png){width="100%"} |
+: Appendix Figure F1.Event Study Plots: Boundary Handling Methods Comparison
+
+
+The figure reveals striking consistency in the qualitative pattern across methods. All four approaches show flat pre-trends near zero, followed by positive and growing treatment effects after approval. The confidence intervals are naturally wider for Method 2 (balanced sample) and Method 3 (Rosa's approach) due to smaller sample sizes, but the point estimates trace similar trajectories.
+
+## F.7 Assessment and Recommendations {.unnumbered}
+
+The comparative analysis supports the validity of the original approach (Method $0$) while demonstrating robustness to alternative specifications. Several considerations inform this assessment.
+
+The original approach with binning and zero-imputation offers a well-balanced tradeoff between sample preservation and methodological transparency. Retaining all 3,647 observations maximizes statistical power and maintains external validity across the full distribution of approval timing. The zero-imputation assumption, while implicit, reflects a conservative stance that treats unknown observations as representing the empirically dominant state of no approval. The binning procedure addresses statistical concerns about sparse cells at distant horizons while providing interpretable aggregate coefficients.
+
+The consistency of results across methods provides strong evidence that the findings are not artifacts of boundary handling choices. The positive promotion effect of subway approval, materializing by years three to four after approval, appears in every specification regardless of how boundary observations are treated. This robustness is the hallmark of a credible empirical result.
+
+Rosa's approach, while valuable as a sensitivity check, has limitations that make it less suitable as the primary specification. The substantial sample reduction (from 3,647 to 1,269 observations) raises concerns about selection bias and reduces statistical power. More fundamentally, the simple lag/lead construction abandons mayor-level tracking, changing what the coefficients measure in ways that are inconsistent with the research question.
+
+
+
+\newpage
+
+# Appendix G: Extra Robustness Check for Correct Dataset and No Post-Treatment Effect {.appendix .unnumbered}
+
+This appendix presents another set of additional robustness checks examining two potential concerns: (1) the inclusion of the `mppost_any` control variable, and (2) the proper exclusion of sub-provincial cities from the analysis sample.
+
+## G.1 Motivation for Robustness Checks {.unnumbered}
+
+The dynamic event study specification used in Section 4 includes a control variable `mppost_any` that equals one for all observations in which the city retains subway approval status but the original approving mayor has left office. This variable was included in the updated replication code provided by Lei and Zhou but was not present in their original Figure 2 specification. A natural question arises: does the inclusion of this control affect the substantive findings?
+
+Additionally, during the replication process, I discovered that two cities, Shenyang (City_Code 2101) and Shenzhen (City_Code 4403), have `fsj2 = 0` despite being sub-provincial cities or special economic zones that should theoretically be excluded from the analysis. This raises the question of whether these observations affect the estimated coefficients.
+
+## G.2 Key Analytical Focus {.unnumbered}
+
+To address these concerns, I estimate three specifications using the event study framework in the main paper and we focus on Figure 2 and Table A14 of the original paper.
+
+**Column (1): Original specification with `mppost_any`.** This specification includes `mppost_any` as a control variable, matching the updated replication code. The model regresses the three-year promotion indicator on event-time dummies (`mpprior5` through `mpprior2`, `mpconn0` through `mpconn4`), the post-tenure control, and city and year fixed effects.
+
+**Column (2): Specification without `mppost_any`.** This specification excludes the `mppost_any` control, allowing post-tenure observations to be absorbed into the baseline category rather than explicitly controlled.
+
+**Column (3): Strict sample exclusion.** This specification uses the original model with `mppost_any` but additionally excludes Shenyang and Shenzhen from the analysis sample.
+
+Table G1 presents the coefficient estimates across all three specifications.
+
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_g_table1.png){width="100%"} |
+: Appendix Table G1. Robustness Check: `mppost_any` Control and Sample Variation {#tbl-robustness-mppost width="6.5in"}
+
+
+**Pre-trend coefficients.** The coefficients on pre-treatment periods show some variation across specifications. In the original specification (Column 1), pre-trend coefficients range from -0.147 to 0.018 and are statistically insignificant. When `mppost_any` is excluded (Column 2), the coefficient on "To be approved in 5 or more years" becomes statistically significant at the 5% level (-0.194), though other pre-trend coefficients remain insignificant. In the strict sample (Column 3), pre-trend coefficients are smaller in magnitude and insignificant, ranging from -0.093 to 0.068. Overall, the parallel trends assumption receives reasonable support, though the sensitivity of the five-year-prior coefficient to specification merits attention.
+
+**Treatment effect coefficients.** The core treatment effects are robust across all specifications. The coefficients on `mpconn3` (approved for 3 years) and `mpconn4` (approved for 4 or more years) are statistically significant in all three columns. In the original specification, these coefficients are 0.583 (p<0.01) and 0.643 (p<0.05) respectively. Without `mppost_any`, the estimates are modestly smaller at 0.529 (p<0.01) and 0.591 (p<0.05). The strict sample produces slightly larger estimates of 0.623 (p<0.01) and 0.681 (p<0.05). The coefficient on `mpconn2` (approved for 2 years) is marginally significant in Columns 1 and 3 but not in Column 2.
+
+**Post-tenure coefficient.** The coefficient on `mppost_any` differs notably between specifications. In Column 1, it is 0.099 and statistically insignificant. However, in the strict sample (Column 3), the coefficient increases to 0.212 and becomes statistically significant at the 5% level. This suggests that excluding Shenyang and Shenzhen reveals a positive post-tenure effect that was previously attenuated, possibly because these cities had unusual post-tenure dynamics.
+
+**Sample variation.** Comparing Columns 1 and 3 reveals that excluding Shenyang and Shenzhen reduces the sample by 28 observations (from 3,647 to 3,619). The treatment effect coefficients increase slightly in magnitude, and the `mppost_any` coefficient becomes significant. This pattern suggests that these two cities may have been exerting a small downward influence on the estimated effects.
+
+## G.3 Key Findings {.unnumbered}
+
+The robustness analysis yields three important findings.
+
+First, the core finding that subway approval significantly increases promotion probability by years 3-4 of the mayor's tenure is robust across all specifications. The coefficients on `mpconn3` and `mpconn4` are statistically significant in every specification, with point estimates ranging from 0.529 to 0.681. This consistency demonstrates that the main result is not sensitive to the inclusion of `mppost_any` or to the treatment of Shenyang and Shenzhen.
+
+Second, the inclusion of `mppost_any` affects coefficient estimates but does not change the substantive conclusions. Without this control, treatment effect estimates are somewhat smaller and the pre-trend coefficient at five years prior becomes significant. Including `mppost_any` appears to absorb variation that would otherwise bias the pre-trend and treatment coefficients, supporting its inclusion in the preferred specification.
+
+Third, the strict sample excluding Shenyang and Shenzhen produces the cleanest results: pre-trend coefficients are closest to zero, treatment effects are largest, and the `mppost_any` coefficient is positive and significant. This suggests that these cities introduced some noise into the estimation, though their exclusion does not qualitatively change the conclusions.
+
+Overall, the theoretical justification for including `mppost_any` derives from the research question itself. The analysis focuses on the political returns to the mayor who secures subway approval. After that mayor leaves office, subsequent observations are conceptually distinct: the successor inherits an existing approval rather than securing a new one. Including `mppost_any` explicitly models this structural break in treatment attribution, providing cleaner identification of the within-tenure treatment effect.
+
+The empirical results also support this choice. Excluding `mppost_any` produces a significant negative pre-trend coefficient at five years prior, which could indicate either a violation of parallel trends or simply noise that `mppost_any` helps absorb. Including the control eliminates this concern while preserving the significant treatment effects.
+
+The data quality concern regarding Shenyang and Shenzhen, while worth documenting, does not invalidate the main analysis. Excluding these cities produces similar or stronger results, confirming that they are not driving the findings. The `fsj2` coding issue should be noted in data documentation, but the conservative approach of retaining these observations ensures that the reported results are not cherry-picked. However, it is valuable to update Lei & Zhou that their updated code still exists coding issues. 
+
+Finally, the consistency of the core treatment effects (mpconn3 and mpconn4 significant at p<0.01 or p<0.05) across all specifications demonstrates that the main conclusion is robust. Subway approval increases promotion probability, with effects materializing by years 3-4, regardless of the specific modeling choices examined here.
+
+
+# Appendix H: Time-Varying Land Finance Dependency Analysis {.appendix .unnumbered}
+
+This appendix addresses a methodological concern regarding the construction of the High Land Dependence indicator used in the heterogeneity analysis. Because the binary grouping variable is defined at the mayor level based on pre-tenure fiscal conditions, the same city may be classified differently across successive mayoral tenures. This appendix documents the extent of such switching behavior and examines whether the main findings hold when restricting to cities with stable classification.
+
+## H.1 Potential Issues {.unnumbered}
+
+The heterogeneity analysis in Section $2$ divides cities into High and Low Land Dependence groups based on each mayor's pre-tenure land finance ratio. This design choice reflects the theoretical focus on mayoral incentives: the relevant fiscal constraint is the one facing the mayor at the time of taking office, not a time-invariant city characteristic. However, this approach implies that a city's classification may change when mayoral leadership transitions, if the new mayor inherits different fiscal conditions than the predecessor faced upon entry.
+
+A natural concern arises: if cities frequently switch between High and Low categories, the estimated heterogeneous effects may conflate genuine differences in fiscal incentives with other time-varying factors correlated with mayoral transitions. To address this concern, I examine how many cities experience status changes and whether the signal scarcity pattern documented persists when restricting attention to cities with stable classification throughout the sample period.
+
+## H.2 Descriptive Analysis of Switching Behavior {.unnumbered}
+
+The analysis reveals substantial switching behavior in the data. Among the 265 prefecture-level cities in the analysis sample, 184 cities (69.4%) experience at least one change in their High/Low Land Dependence classification across mayoral tenures. Only 81 cities (30.6%) maintain a consistent classification throughout the 2003-2016 period. This high rate of switching reflects the dynamic nature of local fiscal conditions in China during this period of rapid urbanization and land market development.
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_h_figure1.png){width="80%"} |
+: Appendix Figure H1. Time-Varying Land Finance Status: Switcher Cities 
+
+Figure H$1$ visualizes the status trajectories for cities that experienced at least one classification change. Each row represents a city, with blue indicating Low Land Dependence and red indicating High Land Dependence in each year. The figure reveals frequent alternation between categories, with many cities switching multiple times during the sample period. This pattern reflects the volatility of land revenue as a fiscal source, which depends on local real estate market conditions, land supply decisions, and macroeconomic factors.
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_h_figure2.png){width="90%"} |
+: Appendix Figure H2. Composition of Switcher Cities Over Time 
+
+Figure H$2$ presents an aggregate view, showing the proportion of switcher cities in each category over time. A notable temporal pattern emerges: the proportion of cities classified as High Land Dependence increases from approximately 35% in 2003 to over 60% by 2016. This trend reflects the well-documented expansion of land finance as a fiscal strategy among Chinese local governments during this period. The gradual shift suggests that many cities transitioned from Low to High Land Dependence as they increasingly relied on land sales to fund infrastructure and urban development.
+
+## H.3 Robustness Analysis: Stable Cities Only {.unnumbered}
+
+To assess whether the heterogeneous effects are robust to the time-varying nature of the classification, I re-estimate the main specifications on the subset of cities whose classification never changes. This "stable cities" sample includes only those 81 prefecture-level cities that are consistently classified as either High or Low Land Dependence across all observed mayoral tenures, comprising 935 city-year observations compared to 3,067 in the full sample.
+
+|                                        |
+|:---------------------------------------|
+| ![](figures/app_h_table1.png){width="85%"} |
+: Appendix Table H1. Heterogeneous Effects: Full Sample vs. Stable Cities {#tbl-stable-comparison}
+
+Table H$1$ presents the comparison. Columns $1$ and $2$ show results from the full sample, while Columns $3$ and $4$ restrict to stable cities only. The key finding is that the signal scarcity pattern not only persists but is substantially amplified in the stable-city sample.
+
+In the full sample, the coefficient on subway approval is $0.193$ for High Land Dependence cities (not statistically significant) and $0.329$ for Low Land Dependence cities (significant at the 5% level). This pattern is consistent with the main findings: the promotional returns to subway approval are concentrated in cities with lower land finance dependence, where infrastructure achievements carry greater signaling value.
+
+The stable-city results reinforce this pattern dramatically. For cities that consistently remain in the High Land Dependence category, the coefficient drops to 0.071 and remains far from statistical significance. For cities that consistently remain in the Low Land Dependence category, the coefficient increases to 0.739 and achieves significance at the 1% level. The contrast between groups is substantially more pronounced in the stable sample than in the full sample.
+
+## H.4 Interpretation and Implications {.unnumbered}
+
+The findings in this appendix provide strong support for the signal scarcity mechanism proposed in Section 2, while also offering important methodological insights.
+
+First, the amplification of heterogeneous effects in the stable-city sample suggests that the full-sample estimates may actually understate the true difference between High and Low Land Dependence cities. Switching cities, by construction, have intermediate fiscal characteristics that blur the distinction between groups. When these cities are excluded, the contrast becomes starker: mayors in consistently low-dependence cities experience a 74 percentage point increase in promotion probability upon subway approval, while mayors in consistently high-dependence cities see essentially no effect.
+
+Second, the stability of the signal scarcity pattern across samples addresses the methodological concern motivating this appendix. If the time-varying nature of the classification were driving spurious results, we would expect the findings to weaken or reverse when restricting to stable cities. Instead, the opposite occurs: the pattern strengthens considerably. This suggests that mayor-level variation in fiscal conditions, rather than introducing noise, captures genuine differences in the political returns to infrastructure investment.
+
+Third, the temporal trend toward higher land dependence shown in Figure H$2$ has implications for understanding the evolution of infrastructure politics in China. As more cities have come to rely heavily on land finance over the sample period, the pool of mayors who can credibly signal competence through subway approval has shrunk. This dynamic may help explain why the promotion premium appears concentrated in an increasingly select group of low-dependence cities.
+
+In conclusion, the time-varying nature of the High Land Dependence indicator, while requiring careful consideration, does not undermine the heterogeneity analysis. If anything, the stable-city results strengthen the case for the signal scarcity mechanism: in cities where land finance dependence is a fixed rather than fluctuating characteristic, the contrast in promotional returns between high and low groups is even more pronounced. Subway approval yields substantial career benefits for mayors in consistently low-dependence cities, where such achievements represent distinctive signals of competence, while conferring no detectable advantage in consistently high-dependence cities, where infrastructure investment is a fiscal routine rather than a political distinction.

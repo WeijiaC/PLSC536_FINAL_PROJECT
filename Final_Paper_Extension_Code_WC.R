@@ -249,14 +249,14 @@ table1_formatted <- data.frame(
     "Mayor connection", 
     "Mayor age",
     "City population", 
-    "City GDP (billion ÃÂ¥)", 
-    "City fiscal revenue (billion ÃÂ¥)",
+    "City GDP (billion CNY)", 
+    "City fiscal revenue (billion CNY)",
     "City GDP growth rate (%)", 
     "Mayor obtaining subway approval",
-    "City investment in infrastructure per capita (ÃÂ¥)", 
-    "City GDP per capita (ÃÂ¥)",
-    "City land sales revenue per capita (ÃÂ¥)", 
-    "City fiscal revenue per capita (ÃÂ¥)",
+    "City investment in infrastructure per capita (CNY)", 
+    "City GDP per capita (CNY)",
+    "City land sales revenue per capita (CNY)", 
+    "City fiscal revenue per capita (CNY)",
     # NEW ROWS 
     "Pre-tenure Land Finance Dependence (Ratio)",
     "Pre-tenure Fiscal Capacity (Ratio)"
@@ -521,7 +521,7 @@ new_table2_data <- data.frame(
   Variable = c(
     "Subway approval", 
     "",
-    "Subway Ã High Land Dependence",
+    "Subway X High Land Dependence",
     "",
     "",
     "City FE", 
@@ -825,7 +825,7 @@ table3_data <- data.frame(
     "",
     "Fiscal capacity",
     "",
-    "Subway Ã Fiscal capacity",
+    "Subway X Fiscal capacity",
     "",
     "",
     "City FE",
@@ -1016,28 +1016,24 @@ coef_centered_interaction <- coef(table3_model5)["Mayor_plan:fiscal_capacity_cen
 cat("\n1. RAW FISCAL CAPACITY (Model 3):\n")
 cat("===================================\n")
 cat(sprintf("Main effect: %.3f\n", coef_raw_basic))
-cat("â Effect of subway when fiscal capacity = 0 (unrealistic!)\n")
+cat("-> Effect of subway when fiscal capacity = 0 (unrealistic!)\n")
 cat(sprintf("Interaction: %.3f\n", coef_raw_interaction))
-cat("â Change in subway effect per unit increase in fiscal capacity\n\n")
-
+cat("-> Change in subway effect per unit increase in fiscal capacity\n\n")
 cat("Example: At mean fiscal capacity (%.4f):\n", mean_fiscal_capacity)
-cat(sprintf("Effect = %.3f + %.3f Ã %.4f = %.3f\n", 
+cat(sprintf("Effect = %.3f + %.3f x %.4f = %.3f\n", 
             coef_raw_basic, coef_raw_interaction, mean_fiscal_capacity,
             coef_raw_basic + coef_raw_interaction * mean_fiscal_capacity))
-cat(sprintf("â Promotion increases by %.1f pp\n\n", 
+cat(sprintf("-> Promotion increases by %.1f pp\n\n", 
             (coef_raw_basic + coef_raw_interaction * mean_fiscal_capacity) * 100))
-
 cat("\n2. CENTERED FISCAL CAPACITY (Model 5):\n")
 cat("========================================\n")
 cat(sprintf("Main effect: %.3f\n", coef_centered_basic))
-cat("â Effect of subway at MEAN fiscal capacity (interpretable!)\n")
+cat("-> Effect of subway at MEAN fiscal capacity (interpretable!)\n")
 cat(sprintf("Interaction: %.3f\n", coef_centered_interaction))
-cat("â Same interpretation as raw\n\n")
-
+cat("-> Same interpretation as raw\n\n")
 cat("Verification: Effect at mean should be identical:\n")
 cat(sprintf("Raw model at mean: %.3f\n", coef_raw_basic + coef_raw_interaction * mean_fiscal_capacity))
 cat(sprintf("Centered model at mean: %.3f (main effect directly)\n\n", coef_centered_basic))
-
 cat("\n3. MARGINAL EFFECTS AT DIFFERENT LEVELS:\n")
 cat("==========================================\n")
 
@@ -1063,13 +1059,12 @@ for (i in 1:nrow(levels)) {
   effect_centered <- coef_centered_basic + coef_centered_interaction * levels$centered_value[i]
   
   cat(sprintf("\n%s (FC = %.4f):\n", levels$name[i], levels$raw_value[i]))
-  cat(sprintf("  Raw model: %.3f + %.3f Ã %.4f = %.3f\n", 
+  cat(sprintf("  Raw model: %.3f + %.3f x %.4f = %.3f\n", 
               coef_raw_basic, coef_raw_interaction, levels$raw_value[i], effect_raw))
-  cat(sprintf("  Centered model: %.3f + %.3f Ã %.4f = %.3f\n", 
+  cat(sprintf("  Centered model: %.3f + %.3f x %.4f = %.3f\n", 
               coef_centered_basic, coef_centered_interaction, levels$centered_value[i], effect_centered))
-  cat(sprintf("  â Subway effect: %.1f pp increase in promotion\n", effect_centered * 100))
+  cat(sprintf("  -> Subway effect: %.1f pp increase in promotion\n", effect_centered * 100))
 }
-
 
 # ==============================================================================
 # Appendix TABLE 1: EXTRA ANALYSIS - SUBWAY APPROVALS BY FISCAL CAPACITY GROUP ----
@@ -1322,7 +1317,7 @@ table3_data <- data.frame(
   Variable = c(
     "Subway approval",
     "",
-    "Subway Ã Low Fiscal Capacity",
+    "Subway X Low Fiscal Capacity",
     "",
     "",
     "City FE",
@@ -1808,7 +1803,7 @@ p_low <- ggplot(df_plot_low, aes(x = x, y = estimate)) +
   geom_point(fill = "white", shape = 21, size = 3, stroke = 1) +
   scale_x_continuous(
     breaks = -5:4, 
-    labels = c("â¤-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
+    labels = c("<=-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
   ) + 
   scale_y_continuous(limits = c(-0.4, 2.2), breaks = seq(-0.4, 2.0, 0.4)) +
   labs(
@@ -1869,7 +1864,7 @@ p_high <- ggplot(df_plot_high, aes(x = x, y = estimate)) +
   geom_point(fill = "white", shape = 21, size = 3, stroke = 1) +
   scale_x_continuous(
     breaks = -5:4, 
-    labels = c("â¤-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
+    labels = c("<=-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
   ) + 
   scale_y_continuous(limits = c(-0.5, 2.2), breaks = seq(-0.4, 2.0, 0.4)) +
   labs(
@@ -2154,7 +2149,7 @@ p_original <- ggplot(df_plot, aes(x = x, y = estimate)) +
   geom_point(fill = "white", shape = 21, size = 3, stroke = 1) +
   scale_x_continuous(
     breaks = -5:4, 
-    labels = c("â¤-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
+    labels = c("<=-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
   ) + 
   scale_y_continuous(limits = c(-0.5, 2.2), breaks = seq(-0.4, 2.0, 0.4)) +
   labs(
@@ -2182,7 +2177,7 @@ p_low_panel <- ggplot(df_plot_low, aes(x = x, y = estimate)) +
   geom_point(fill = "white", shape = 21, size = 3, stroke = 1) +
   scale_x_continuous(
     breaks = -5:4, 
-    labels = c("â¤-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
+    labels = c("<=-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
   ) + 
   scale_y_continuous(limits = c(-0.5, 2.2), breaks = seq(-0.4, 2.0, 0.4)) +
   labs(
@@ -2211,7 +2206,7 @@ p_high_panel <- ggplot(df_plot_high, aes(x = x, y = estimate)) +
   geom_point(fill = "white", shape = 21, size = 3, stroke = 1) +
   scale_x_continuous(
     breaks = -5:4, 
-    labels = c("â¤-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
+    labels = c("<=-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", ">=4")
   ) + 
   scale_y_continuous(limits = c(-0.5, 2.2), breaks = seq(-0.4, 2.0, 0.4)) +
   labs(
@@ -2304,9 +2299,9 @@ vif_table_data <- data.frame(
   Variable = c("Subway Approval",
                "High Land Dependence", 
                "Fiscal Capacity",
-               "Subway Ã High Land",
-               "Subway Ã Fiscal Capacity",
-               "High Land Ã Fiscal Capacity",
+               "Subway X High Land",
+               "Subway X Fiscal Capacity",
+               "High Land X Fiscal Capacity",
                "",
                "Maximum VIF",
                "Mean VIF",
@@ -2477,13 +2472,13 @@ appendix5_data <- data.frame(
     "",
     "Fiscal capacity (centered)",
     "",
-    "Subway Ã High Land",
+    "Subway X High Land",
     "",
-    "Subway Ã Fiscal capacity",
+    "Subway X Fiscal capacity",
     "",
-    "High Land Ã Fiscal capacity",
+    "High Land X Fiscal capacity",
     "",
-    "Subway Ã High Land Ã Fiscal",
+    "Subway X High Land X Fiscal",
     "",
     "",
     "City FE",
